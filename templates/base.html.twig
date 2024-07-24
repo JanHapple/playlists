@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}Playlists Home{% endblock %}</title>
+        {% block stylesheets %}
+            <link rel="stylesheet" href="{{ asset('styles/app.scss') }}">
+        {% endblock %}
+
+        {% block javascripts %}
+            {% block importmap %}{{ importmap('app') }}{% endblock %}
+        {% endblock %}
+    </head>
+    <body>
+        <nav class="navbar bg-body-tertiary">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="{{ path('app_register')}}">Navbar</a>
+                {% if app.user %}
+                    <a class="btn btn-outline-primary" href="{{ path('app_logout') }}">Logout</a>
+                {% else %}
+                    <a class="btn btn-outline-primary" href="{{ path('app_login') }}">Login</a>
+                {% endif %}
+            </div>
+        </nav>
+        <div class="container">
+            {% block body %}
+            {% endblock %}
+        </div>
+    </body>
+</html>
