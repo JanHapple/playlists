@@ -6,8 +6,11 @@ use App\Repository\PlaylistRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: PlaylistRepository::class)]
+#[UniqueEntity('name', message: 'This playlist name is already in use.')]
 class Playlist
 {
     #[ORM\Id]
@@ -15,7 +18,7 @@ class Playlist
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, unique: true)]
     private ?string $name = null;
 
     /**
@@ -23,6 +26,12 @@ class Playlist
      */
     #[ORM\ManyToMany(targetEntity: Song::class, mappedBy: 'playlists')]
     private Collection $songs;
+
+    #[ORM\ManyToOne(inversedBy: 'playlists')]
+    private ?User $user = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $genre = null;
 
     public function __construct()
     {
@@ -38,7 +47,6 @@ class Playlist
     {
         return $this->name;
     }
-
     public function setName(string $name): static
     {
         $this->name = $name;
@@ -69,6 +77,30 @@ class Playlist
         if ($this->songs->removeElement($song)) {
             $song->removePlaylist($this);
         }
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    public function getGenre(): ?string
+    {
+        return $this->genre;
+    }
+
+    public function setGenre(string $genre): static
+    {
+        $this->genre = $genre;
 
         return $this;
     }

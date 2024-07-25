@@ -5,31 +5,42 @@
 {% block body %}
     <h1 class="text-center my-3">Playlist App</h1>
 
-    <div class="container">
-        <div class="row">
-            <div class="col text-center p-3">
-                This site is a demo App to generate Playlist via the Spotify Api. You can generate as much playlist as you want
-                and tag it with different genres. Search the App for your favorite playlist like share and vote them.
-            </div>
+    <div class="row">
+        <div class="col text-center p-3">
+            This site is a demo App to generate Playlist via the Spotify Api. You can generate as much playlist as you want
+            and tag it with different genres. Search the App for your favorite playlist like share and vote them.
         </div>
-        <div class="row mt-3">
-            <div class="col">
-                <div class="d-flex justify-content-center">
-                    <a class="btn btn-primary" href="{{ path('app_playlists') }}">Playlists</a>
-                </div>
-
-            </div>
-            <div class="col">
-                <div class="d-flex justify-content-center">
-                    <a class="btn btn-primary" href="{{ path('app_song') }}">Songs</a>
+    </div>
+    <div class="row my-3">
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Playlists</h5>
+                    <p class="card-text">
+                        Create your favorite playlists and sort them in different genres. You can share them with other
+                        members of the playlist community to like and share them.
+                    </p>
                 </div>
             </div>
+
         </div>
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Songs</h5>
+                    <p class="card-text">
+                        Search for millions of songs in the Spotify Api and create your Playlists out of the box.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
 
-        {% for flash_error in app.flashes('verify_email_error') %}
-            <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
-        {% endfor %}
+    {% for flash_error in app.flashes('verify_email_error') %}
+        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+    {% endfor %}
 
+    {% if app.user is null %}
         <h1>Register</h1>
 
         {{ form_errors(registrationForm) }}
@@ -45,6 +56,6 @@
 
             <button type="submit" class="btn btn-primary">register</button>
         {{ form_end(registrationForm) }}
-    </div>
+    {% endif %}
 
 {% endblock %}

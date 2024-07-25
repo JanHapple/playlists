@@ -3,18 +3,31 @@
 {% block title %}Hello PlaylistController!{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+    <h1 class="lead my-5">Hi {{ app.user.firstname }}, welcome back to your Playlist-Dashboard!</h1>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>/var/www/html/src/Controller/PlaylistController.php</code></li>
-        <li>Your template at <code>/var/www/html/templates/playlist/index.html.twig</code></li>
-    </ul>
-</div>
+    {% if playlists|length == 0 %}
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">You have not created playlists</h5>
+                <p class="card-text">Create your first playlist and share it with your community.</p>
+                <a href="{{ path('app_create_playlist') }}" class="btn btn-outline-success">create Playlist</a>
+            </div>
+        </div>
+    {% else %}
+        <div class="accordion accordion-flush" id="playlists-{{ app.user.id }}">
+            {% for key, playlist in playlists %}
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse-{{ key }}" aria-expanded="false" aria-controls="flush-collapse-{{ key }}">
+                            {{ playlist.name }} | {{ playlist.genre }}
+                        </button>
+                    </h2>
+                    <div id="flush-collapse-{{ key }}" class="accordion-collapse collapse" data-bs-parent="#playlists-{{ app.user.id }}">
+                        <div class="accordion-body">Placeholder content for this accordion, which is intended to demonstrate the <code>.accordion-flush</code> class. This is the first item's accordion body.</div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
 {% endblock %}
