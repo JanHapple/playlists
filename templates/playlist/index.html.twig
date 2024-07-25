@@ -5,7 +5,10 @@
 {% block body %}
 
     <h1 class="lead my-5">Hi {{ app.user.firstname }}, welcome back to your Playlist-Dashboard!</h1>
-
+    <div class="d-flex justify-content-end mb-2">
+        <a class="btn btn-sm btn-outline-success me-2" href="{{ path('app_create_playlist') }}">new</a>
+        <a class="btn btn-sm btn-outline-primary" href="#">add songs</a>
+    </div>
     {% if playlists|length == 0 %}
         <div class="card">
             <div class="card-body">
@@ -15,19 +18,45 @@
             </div>
         </div>
     {% else %}
-        <div class="accordion accordion-flush" id="playlists-{{ app.user.id }}">
-            {% for key, playlist in playlists %}
-                <div class="accordion-item">
-                    <h2 class="accordion-header">
-                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse-{{ key }}" aria-expanded="false" aria-controls="flush-collapse-{{ key }}">
-                            {{ playlist.name }} | {{ playlist.genre }}
-                        </button>
-                    </h2>
-                    <div id="flush-collapse-{{ key }}" class="accordion-collapse collapse" data-bs-parent="#playlists-{{ app.user.id }}">
-                        <div class="accordion-body">Placeholder content for this accordion, which is intended to demonstrate the <code>.accordion-flush</code> class. This is the first item's accordion body.</div>
+        <div class="card p-1 bg-light">
+            <div class="accordion accordion-flush" id="playlists-{{ app.user.id }}">
+                {% for key, playlist in playlists %}
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse-{{ key }}" aria-expanded="false" aria-controls="flush-collapse-{{ key }}"}>
+                                {{ playlist.name ~ ' | ' ~ playlist.genre }}
+                            </button>
+                        </h2>
+                        <div id="flush-collapse-{{ key }}" class="accordion-collapse collapse" data-bs-parent="#playlists-{{ app.user.id }}">
+                            {% if playlist.songs|length > 0 %}
+                                <div class="accordion-body">
+                                    <ul class="list-group">
+                                        {% set seconds = 0 %}
+                                        {% for song in playlist.songs %}
+                                            <li class="list-group-item">{{ song.title }} | {{ song.band }} | {{ song.minDuration }}:{{ song.secDuration }} min</li>
+                                            {% set seconds = seconds + ((song.minDuration * 60) + song.secDuration) %}
+                                        {% endfor %}
+                                    </ul>
+                                    <div class="d-flex justify-content-between align-items-center mt-2">
+                                        {% set hours =  (seconds / 3600)|round(0, 'floor') %}
+                                        {% set minutes = ((seconds % 3600)/60)|round(0, 'floor') %}
+                                        {% set seconds = seconds % 60 %}
+                                        <span>Duration: {{ hours < 10 ? '0' ~ hours : hours }}:{{ minutes < 10 ? '0' ~ minutes : minutes }}:{{ seconds < 10 ? '0' ~ seconds : seconds }} hours</span>
+                                        <a href="{{ path('app_add_song', { id: playlist.id }) }}" class="btn btn-sm btn-outline-primary">add song</a>
+                                    </div>
+                                </div>
+                            {% else %}
+                                <div class="accordion-body d-flex justify-content-between">
+                                    <span>There are currently no songs in this playlist. Please add new songs.</span>
+                                    <span>
+                                        <a href="{{ path('app_add_song', { id: playlist.id }) }}" class="btn btn-sm btn-outline-primary">add song</a>
+                                    </span>
+                                </div>
+                            {% endif %}
+                        </div>
                     </div>
-                </div>
-            {% endfor %}
+                {% endfor %}
+            </div>
         </div>
     {% endif %}
 {% endblock %}

@@ -5,8 +5,8 @@ namespace App\Entity;
 use App\Repository\SongRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: SongRepository::class)]
 class Song
@@ -22,14 +22,19 @@ class Song
     #[ORM\Column(length: 255)]
     private ?string $band = null;
 
-    #[ORM\Column(type: Types::TIME_MUTABLE)]
-    private ?\DateTimeInterface $duration = null;
-
     /**
      * @var Collection<int, Playlist>
      */
     #[ORM\ManyToMany(targetEntity: Playlist::class, inversedBy: 'songs')]
     private Collection $playlists;
+
+    #[ORM\Column]
+    #[Assert\LessThan(60, message: 'Please enter a number between 0 and 59')]
+    private ?int $minDuration = null;
+
+    #[ORM\Column]
+    #[Assert\LessThan(60, message: 'Please enter a number between 0 and 59')]
+    private ?int $secDuration = null;
 
     public function __construct()
     {
@@ -65,18 +70,6 @@ class Song
         return $this;
     }
 
-    public function getDuration(): ?\DateTimeInterface
-    {
-        return $this->duration;
-    }
-
-    public function setDuration(\DateTimeInterface $duration): static
-    {
-        $this->duration = $duration;
-
-        return $this;
-    }
-
     /**
      * @return Collection<int, Playlist>
      */
@@ -97,6 +90,30 @@ class Song
     public function removePlaylist(Playlist $playlist): static
     {
         $this->playlists->removeElement($playlist);
+
+        return $this;
+    }
+
+    public function getMinDuration(): ?int
+    {
+        return $this->minDuration;
+    }
+
+    public function setMinDuration(int $minDuration): static
+    {
+        $this->minDuration = $minDuration;
+
+        return $this;
+    }
+
+    public function getSecDuration(): ?int
+    {
+        return $this->secDuration;
+    }
+
+    public function setSecDuration(int $secDuration): static
+    {
+        $this->secDuration = $secDuration;
 
         return $this;
     }

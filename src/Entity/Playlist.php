@@ -10,7 +10,11 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: PlaylistRepository::class)]
-#[UniqueEntity('name', message: 'This playlist name is already in use.')]
+#[UniqueEntity(
+    fields: ['name', 'genre'],
+    message: 'There is already a playlist in use with the given genre. Please choose another name or change the actual combination'
+)
+]
 class Playlist
 {
     #[ORM\Id]

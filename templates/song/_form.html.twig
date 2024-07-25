@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Add new song to playlist{% endblock %}
+
+{% block body %}
+
+    <div class="my-5">
+        {{ form_start(form) }}
+            {{ form_row(form.title) }}
+            {{ form_row(form.band) }}
+            <div class="mb-1">Duration:</div>
+            <div class="row">
+                <div class="col">
+                    {{ form_row(form.minDuration) }}
+                </div>
+                <div class="col">
+                    {{ form_row(form.secDuration) }}
+                </div>
+            </div>
+            <button type="submit" class="btn btn-outline-success">create</button>
+        {{ form_end(form) }}
+    </div>
+
+{% endblock %}
