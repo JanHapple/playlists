@@ -14,7 +14,9 @@
     <body>
         <nav class="navbar bg-body-tertiary">
             <div class="container-fluid">
-                <a class="navbar-brand" href="{{ path('app_register')}}">Navbar</a>
+                <a class="navbar-brand" href="{{ path('app_register')}}">
+                    <i class="fa-solid fa-record-vinyl"></i> Playlists
+                </a>
                 {% if app.user %}
                     <a class="btn btn-outline-primary" href="{{ path('app_logout') }}">Logout</a>
                 {% else %}
