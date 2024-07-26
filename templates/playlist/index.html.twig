@@ -33,7 +33,14 @@
                                     <ul class="list-group">
                                         {% set seconds = 0 %}
                                         {% for song in playlist.songs %}
-                                            <li class="list-group-item">{{ song.title }} | {{ song.band }} | {{ song.minDuration }}:{{ song.secDuration }} min</li>
+                                            <li class="list-group-item d-flex justify-content-between">
+                                                <span>{{ song.title }} | {{ song.band }} | {{ song.minDuration }}:{{ song.secDuration }} min</span>
+                                                <span>
+                                                    <a class="btn btn-sm btn-danger">
+                                                        <i class="fa-solid fa-trash"></i>
+                                                    </a>
+                                                </span>
+                                            </li>
                                             {% set seconds = seconds + ((song.minDuration * 60) + song.secDuration) %}
                                         {% endfor %}
                                     </ul>
