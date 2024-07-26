@@ -3,6 +3,10 @@
 {% block title %}Register{% endblock %}
 
 {% block body %}
+    {% for flash_error in app.flashes('verify_email_error') %}
+        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+    {% endfor %}
+
     <h1 class="text-center my-3">Playlist App</h1>
 
     <div class="row">
@@ -36,26 +40,38 @@
         </div>
     </div>
 
-    {% for flash_error in app.flashes('verify_email_error') %}
-        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
-    {% endfor %}
-
     {% if app.user is null %}
-        <h1>Register</h1>
+        <div class="card bg-light p-3 my-3">
+            <div class="container">
+                <h2 class="mb-3">Registration</h2>
+                {{ form_errors(registrationForm) }}
 
-        {{ form_errors(registrationForm) }}
+                {{ form_start(registrationForm) }}
+                    <div class="row">
+                         <div class="col-12 col-md-6">
+                            {{ form_row(registrationForm.firstname) }}
+                        </div>
+                        <div class="col-12 col-md-6">
+                            {{ form_row(registrationForm.lastname) }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-6">
+                            {{ form_row(registrationForm.username) }}
+                        </div>
+                        <div class="col-12 col-md-6">
+                            {{ form_row(registrationForm.email) }}
+                        </div>
+                    </div>
+                    {{ form_row(registrationForm.plainPassword) }}
+                    <div>I agree to the term sof the company Playlists and give all my data to them.</div>
+                    {{ form_row(registrationForm.agreeTerms) }}
 
-        {{ form_start(registrationForm) }}
-            {{ form_row(registrationForm.email) }}
-            {{ form_row(registrationForm.firstname) }}
-            {{ form_row(registrationForm.lastname) }}
-            {{ form_row(registrationForm.username) }}
-            {{ form_row(registrationForm.plainPassword) }}
-            <div>I agree to the term sof the company Playlists and give all my data to them.</div>
-            {{ form_row(registrationForm.agreeTerms) }}
+                    <button type="submit" class="btn btn-primary">register</button>
+                {{ form_end(registrationForm) }}
+            </div>
+        </div>
 
-            <button type="submit" class="btn btn-primary">register</button>
-        {{ form_end(registrationForm) }}
     {% endif %}
 
 {% endblock %}

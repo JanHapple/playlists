@@ -25,6 +25,7 @@ class SongType extends AbstractType
                 'rounding_mode' => \NumberFormatter::ROUND_HALFUP,
                 'label' => 'seconds'
             ])
+            ->add('')
         ;
 
         if(empty($options['playlist'])) {

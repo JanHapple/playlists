@@ -29,11 +29,11 @@ class Song
     private Collection $playlists;
 
     #[ORM\Column]
-    #[Assert\LessThan(60, message: 'Please enter a number between 0 and 59')]
+    #[Assert\LessThan(value: 60, message: 'Please enter a number between 0 and 59')]
     private ?int $minDuration = null;
 
     #[ORM\Column]
-    #[Assert\LessThan(60, message: 'Please enter a number between 0 and 59')]
+    #[Assert\LessThan(value: 60, message: 'Please enter a number between 0 and 59')]
     private ?int $secDuration = null;
 
     public function __construct()

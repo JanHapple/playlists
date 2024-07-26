@@ -23,9 +23,15 @@
                 {% for key, playlist in playlists %}
                     <div class="accordion-item">
                         <h2 class="accordion-header">
-                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse-{{ key }}" aria-expanded="false" aria-controls="flush-collapse-{{ key }}"}>
-                                {{ playlist.name ~ ' | ' ~ playlist.genre }}
-                            </button>
+                            {% if playlist.songs|length > 0 %}
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse-{{ key }}" aria-expanded="false" aria-controls="flush-collapse-{{ key }}"%}>
+                                    {{ playlist.name ~ ' | ' ~ playlist.genre }} <span class="ms-2">({{ playlist.songs|length }} {{ playlist.songs|length > 1 ? 'songs' : 'song' }})</span>
+                                </button>
+                            {% else %}
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse-{{ key }}" aria-expanded="false" aria-controls="flush-collapse-{{ key }}"%}>
+                                    <span class="me-2 text-warning"><i class="fa-solid fa-triangle-exclamation"></i></span> {{ playlist.name }} | {{ playlist.genre }}
+                                </button>
+                            {% endif %}
                         </h2>
                         <div id="flush-collapse-{{ key }}" class="accordion-collapse collapse" data-bs-parent="#playlists-{{ app.user.id }}">
                             {% if playlist.songs|length > 0 %}
@@ -36,9 +42,7 @@
                                             <li class="list-group-item d-flex justify-content-between">
                                                 <span>{{ song.title }} | {{ song.band }} | {{ song.minDuration }}:{{ song.secDuration }} min</span>
                                                 <span>
-                                                    <a class="btn btn-sm btn-danger">
-                                                        <i class="fa-solid fa-trash"></i>
-                                                    </a>
+                                                    {{ include('song/_delete_form.html.twig') }}
                                                 </span>
                                             </li>
                                             {% set seconds = seconds + ((song.minDuration * 60) + song.secDuration) %}
