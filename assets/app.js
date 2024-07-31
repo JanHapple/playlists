@@ -8,3 +8,6 @@ import './bootstrap.js';
 import './styles/app.css';
 
 import 'bootstrap';
+
+// Get file name for Bootstrap FileInput
+const fileinput = document.getElementById('');

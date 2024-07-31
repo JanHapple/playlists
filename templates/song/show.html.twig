@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello SongController!{% endblock %}
+
+{% block body %}
+    <h1 class="lead">{{ song.title }}</h1>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-md-7">
+                <ul>
+                    <li>{{ song.band }}</li>
+                    <li>{{ song.minDuration }}:{{ song.secDuration }} Min.</li>
+                </ul>
+                <h5>This song occures in your following playlists:</h5>
+                <ul>
+                    {% for playlist in filteredPlayLists %}
+                        <li>
+                            {# a href="{{ path('app_show_playlist', { 'id': playlist.id }) }}">{{ playlist.name }}</a> #}
+                            {{ playlist.name }}
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="col-12 col-md-5">
+                <img src="{{ asset(song.filePath) }}">
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

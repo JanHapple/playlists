@@ -41,7 +41,13 @@
                                         {% for song in playlist.songs %}
                                             <li class="list-group-item d-flex justify-content-between">
                                                 <span>{{ song.title }} | {{ song.band }} | {{ song.minDuration }}:{{ song.secDuration }} min</span>
-                                                <span>
+                                                <span class="d-flex">
+                                                    <a href="{{ path('app_edit_song', { 'playlist': playlist.id, 'id': song.id }) }}" class="btn btn-sm btn-warning me-2 text-white">
+                                                        <i class="fa-solid fa-pen"></i>
+                                                    </a>
+                                                    <a href="{{ path('app_show_song', { 'id': song.id }) }}" class="btn btn-sm btn-primary me-2 text-white">
+                                                        <i class="fa-solid fa-info"></i>
+                                                    </a>
                                                     {{ include('song/_delete_form.html.twig') }}
                                                 </span>
                                             </li>

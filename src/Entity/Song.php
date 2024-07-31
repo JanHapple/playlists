@@ -36,7 +36,10 @@ class Song
     #[Assert\LessThan(value: 60, message: 'Please enter a number between 0 and 59')]
     private ?int $secDuration = null;
 
-    public function __construct()
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $filename = null;
+
+    public function __construct(private readonly string $targetDirectory)
     {
         $this->playlists = new ArrayCollection();
     }
@@ -114,6 +117,29 @@ class Song
     public function setSecDuration(int $secDuration): static
     {
         $this->secDuration = $secDuration;
+
+        return $this;
+    }
+
+    public function getFilePath(): ?string
+    {
+        $fileName = $this->filename;
+
+        if($fileName) {
+            return $this->targetDirectory . '/' . $fileName;
+        }
+
+        return 'defaults/backup-image.jpg';
+    }
+
+    public function getFilename(): ?string
+    {
+        return $this->filename;
+    }
+
+    public function setFilename(?string $filename): static
+    {
+        $this->filename = $filename;
 
         return $this;
     }

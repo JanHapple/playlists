@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Add new song to playlist{% endblock %}
+{% block title %}Playlist form{% endblock %}
 
 {% block body %}
 
@@ -11,7 +11,7 @@
             {{ form_row(form.title) }}
             {{ form_row(form.band) }}
             <div class="mb-1">Duration:</div>
-            <div class="row">
+            <div class="row mb-2">
                 <div class="col">
                     {{ form_row(form.minDuration) }}
                 </div>
@@ -19,7 +19,8 @@
                     {{ form_row(form.secDuration) }}
                 </div>
             </div>
-            <button type="submit" class="btn btn-outline-success">create</button>
+            {{ form_row(form.image) }}
+            <button type="submit" class="btn btn-outline-success">{{ 'edit' in app.request.pathinfo ? 'edit' : 'create' }}</button>
         {{ form_end(form) }}
     </div>
 
